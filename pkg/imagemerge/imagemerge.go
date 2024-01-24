@@ -2,6 +2,9 @@ package imagemerge
 
 import (
 	"fmt"
+	"github.com/schollz/progressbar/v3"
+	iDraw "golang.org/x/image/draw"
+	"golang.org/x/image/webp"
 	"image"
 	"image/draw"
 	"image/jpeg"
@@ -10,10 +13,6 @@ import (
 	"path/filepath"
 	"strings"
 	"sync"
-
-	"github.com/schollz/progressbar/v3"
-	iDraw "golang.org/x/image/draw"
-	"golang.org/x/image/webp"
 )
 
 const (
@@ -28,8 +27,6 @@ type MergeOptions struct {
 	FrameImagePath string
 	SecondImageDir string
 	OutputDir      string
-	WorkerCount    int
-	ProgressStep   int
 }
 
 // MergeImages merges a frame image with a set of second images.
@@ -57,25 +54,11 @@ func MergeImages(options MergeOptions) error {
 	}
 
 	var wg sync.WaitGroup
-	progressCh := make(chan int)
 
-	go func() {
-		bar := progressbar.Default(int64(len(imageFiles)))
-		for progressUpdate := range progressCh {
-			if err := bar.Add(progressUpdate); err != nil {
-				return
-			}
-		}
-	}()
-
-	workerCount := options.WorkerCount
-	if workerCount <= 0 {
-		workerCount = 1
-	}
-
-	wg.Add(len(imageFiles))
+	bar := progressbar.Default(int64(len(imageFiles)), "Processing images")
 
 	for _, imgPath := range imageFiles {
+		wg.Add(1)
 		go func(imgPath string) {
 			defer wg.Done()
 
@@ -85,17 +68,16 @@ func MergeImages(options MergeOptions) error {
 			drawImageStretched(canvas, secondImg, frameImg.Bounds())
 			drawImageOnTop(canvas, frameImg)
 
-			outputFilePath := filepath.Join(outputDir, fmt.Sprintf("merged_%s%s", strings.TrimSuffix(filepath.Base(imgPath), filepath.Ext(imgPath)), jpgExt))
+			outputFilePath := filepath.Join(outputDir, fmt.Sprintf("%s%s", strings.TrimSuffix(filepath.Base(imgPath), filepath.Ext(imgPath)), jpgExt))
 			if err := saveImage(outputFilePath, canvas); err != nil {
 				fmt.Printf("Error saving image %s: %v\n", outputFilePath, err)
 			}
 
-			progressCh <- options.ProgressStep
+			bar.Add(1)
 		}(imgPath)
 	}
 
 	wg.Wait()
-	close(progressCh)
 	fmt.Println("All images processed.")
 
 	return nil

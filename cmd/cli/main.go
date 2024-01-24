@@ -24,8 +24,6 @@ func main() {
 		FrameImagePath: frameImgPath,
 		SecondImageDir: secondImgDir,
 		OutputDir:      outputDir,
-		WorkerCount:    4,
-		ProgressStep:   5,
 	}
 
 	if err := imagemerge.MergeImages(options); err != nil {
