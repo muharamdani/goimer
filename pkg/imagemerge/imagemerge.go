@@ -2,9 +2,6 @@ package imagemerge
 
 import (
 	"fmt"
-	"github.com/schollz/progressbar/v3"
-	iDraw "golang.org/x/image/draw"
-	"golang.org/x/image/webp"
 	"image"
 	"image/draw"
 	"image/jpeg"
@@ -13,6 +10,10 @@ import (
 	"path/filepath"
 	"strings"
 	"sync"
+
+	"github.com/schollz/progressbar/v3"
+	iDraw "golang.org/x/image/draw"
+	"golang.org/x/image/webp"
 )
 
 const (
