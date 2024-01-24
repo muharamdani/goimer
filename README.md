@@ -11,38 +11,43 @@ Goimer is a command-line utility written in Go for merging a frame image with a 
 - Save the merged images in a specified output directory.
 - Support for various image formats: JPEG, PNG, and WebP.
 
-## Usage
-
-1. **Clone the Repository:**
-
-   ```bash
-   git clone https://github.com/muharamdani/goimer.git
-   ```
-
-2. **Build:**
-
-   ```bash
-   cd goimer
-   ./build.sh
-   ```
-
-3. **Run:**
-   
-   ```bash
-   # For Linux   
-   ./build/goimer_linux
-   
-   # For windows
-   run file from ./build/goimer.exe
-   ```
-
+## Usage (CLI)
+1. **Download the latest binary for your operating system from the [build](https://github.com/muharamdani/goimer/tree/master/build) directory.**
+2. **Open a terminal and navigate to the directory containing the binary.**
+3. **Run the binary with the following command:**
+   - **Linux:** `./goimer_linux`
+   - **Windows:** `goimer.exe`
+   - **macOS:** `./goimer_darwin`
+   - **Note:** You may need to grant the binary executable permissions. For example, on Linux, you can run `chmod +x goimer_linux` to grant executable permissions to the binary.
+   - **Note:** According to the [Go FAQ](https://go.dev/doc/faq#virus), you may need to add an exception to your antivirus software to run the binary.
 4. **Follow the prompts to enter the required information:**
-    - Frame image filename
-    - Directory containing the second images
-    - Output directory
-
+   - Frame image filename
+   - Directory containing the second images
+   - Output directory
 5. **Wait for the process to complete.**
 
+## Usage (Package)
+```bash
+go get -u github.com/muharamdani/goimer
+```
+```go
+package main
+
+import "github.com/muharamdani/goimer/pkg/imagemerge"
+
+func main() {
+	// You can use fmt.Scanln() to get the input from user, or you can hardcode it
+	cfg := imagemerge.MergeOptions{
+		FrameImagePath: "frame/frame_file.png",
+        SecondImageDir: "bunch_of_image_dir",
+        OutputDir:      "output_dir",
+	}
+	
+	if err := imagemerge.MergeImages(cfg); err != nil {
+		return
+	}
+}
+```
 ## Supported Image Formats
 
 - JPEG
