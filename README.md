@@ -1,8 +1,8 @@
-# Goimer (Go Image Merge Tool)
+# Goimer (Go Image Merger)
 
 ## Overview
 
-Goimer is a command-line utility written in Go for merging a frame image with a set of second images. This tool allows you to create composite images by resizing and combining the frame and second images. It supports multiple image formats and provides flexibility in specifying the output directory and format.
+Goimer is a package written in Go for merging a frame image with a set of second images. This allows you to create composite images by resizing and combining the frame and second images. It supports multiple image formats and provides flexibility in specifying the output directory and format.
 
 ## Features
 
