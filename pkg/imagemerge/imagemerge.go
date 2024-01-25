@@ -28,6 +28,8 @@ type MergeOptions struct {
 	FrameImagePath string
 	SecondImageDir string
 	OutputDir      string
+	Prefix         string
+	Suffix         string
 }
 
 // MergeImages merges a frame image with a set of second images.
@@ -69,12 +71,22 @@ func MergeImages(options MergeOptions) error {
 			drawImageStretched(canvas, secondImg, frameImg.Bounds())
 			drawImageOnTop(canvas, frameImg)
 
-			outputFilePath := filepath.Join(outputDir, fmt.Sprintf("%s%s", strings.TrimSuffix(filepath.Base(imgPath), filepath.Ext(imgPath)), jpgExt))
+			outputFilePath := filepath.Join(
+				outputDir,
+				fmt.Sprintf("%s%s%s%s",
+					options.Prefix,
+					strings.TrimSuffix(filepath.Base(imgPath), filepath.Ext(imgPath)),
+					jpgExt,
+					options.Suffix,
+				),
+			)
 			if err := saveImage(outputFilePath, canvas); err != nil {
 				fmt.Printf("Error saving image %s: %v\n", outputFilePath, err)
 			}
 
-			bar.Add(1)
+			if err := bar.Add(1); err != nil {
+				return
+			}
 		}(imgPath)
 	}
 
