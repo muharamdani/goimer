@@ -4,6 +4,12 @@
 
 Goimer is a package written in Go for merging a frame image with a set of second images. This allows you to create composite images by resizing and combining the frame and second images. It supports multiple image formats and provides flexibility in specifying the output directory and format.
 
+## Demo
+### CLI
+<p>
+  <img alt="CLI demo" src="./demo/goimer_demo_cli.gif">
+</p>
+
 ## Features
 
 - Merge a frame image with a directory of second images.
