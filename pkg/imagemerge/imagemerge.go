@@ -76,8 +76,8 @@ func MergeImages(options MergeOptions) error {
 				fmt.Sprintf("%s%s%s%s",
 					options.Prefix,
 					strings.TrimSuffix(filepath.Base(imgPath), filepath.Ext(imgPath)),
-					jpgExt,
 					options.Suffix,
+					jpgExt,
 				),
 			)
 			if err := saveImage(outputFilePath, canvas); err != nil {
