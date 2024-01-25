@@ -12,7 +12,7 @@ Goimer is a package written in Go for merging a frame image with a set of second
 - Support for various image formats: JPEG, PNG, and WebP.
 
 ## Usage (CLI)
-1. **Download the latest binary for your operating system from the [build](https://github.com/muharamdani/goimer/tree/master/build) directory.**
+1. **Download the latest binary for your operating system from the [releases page](https://github.com/muharamdani/goimer/releases).**
 2. **Open a terminal and navigate to the directory containing the binary.**
 3. **Run the binary with the following command:**
    - **Linux:** `./goimer_linux`
